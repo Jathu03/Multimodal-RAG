@@ -1,0 +1,12 @@
+python-dotenv
+pymupdf
+numpy
+torch
+Pillow
+langchain-community
+langchain-core
+langchain-text-splitters
+scikit-learn
+transformers
+faiss-cpu # or faiss-gpu if you have a compatible GPU
+langchain-google-genai
