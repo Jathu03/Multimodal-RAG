@@ -94,37 +94,3 @@ This process may take some time, especially the first time it runs, as it needs 
 ### Step 2: Run the RAG Application
 
 Once the vector store is created, you can start the interactive application by running `app.py`. This script will load the pre-built store and allow you to ask questions.
-
-```bash
-python app.py
-```
-
-You will be prompted to enter your query. Type your question and press Enter. To stop the application, type `exit`.
-
-#### Example Interaction
-
-```
-$ python app.py
-Initializing models and processors...
-Loading vector store and image data...
-Multimodal RAG system is ready. Type 'exit' to quit.
-
-Enter your query: What does the chart on page 2 show about revenue trends?
-
-Thinking...
-
---- Retrieved Context ---
-  - [Image] Source: multimodal_sample.pdf, Page: 2
-  - [Text] Source: multimodal_sample.pdf, Page: 2
-  - [Text] Source: multimodal_sample.pdf, Page: 2
-  - [Text] Source: multimodal_sample.pdf, Page: 1
-  - [Text] Source: multimodal_sample.pdf, Page: 2
--------------------------
-
-
-Answer: The chart on page 2 shows a clear upward trend in quarterly revenue from Q1 2022 to Q4 2023. Revenue started at approximately $5 million in Q1 2022 and grew steadily to nearly $14 million by Q4 2023, indicating strong and consistent growth over the two-year period.
-
-======================================================================
-
-Enter your query: exit
-```
