@@ -1,3 +1,7 @@
+Of course. Here is the complete, copy-paste-ready `README.md` file for your project.
+
+---
+
 # Multimodal RAG with PDF, CLIP, and Gemini
 
 This project demonstrates a complete, end-to-end Retrieval-Augmented Generation (RAG) system capable of understanding and answering questions about both the text and the images contained within PDF documents.
@@ -14,3 +18,113 @@ It uses the CLIP model to generate unified embeddings for text chunks and images
 - **Modular and Scalable**: The code is organized into a clean project structure for easy maintenance and expansion.
 
 ## Project Structure
+
+```
+multimodal_rag_project/
+├── data/
+│   └── multimodal_sample.pdf
+├── vector_store/
+│   ├── faiss_index/
+│   └── image_data.pkl
+├── src/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── data_processing.py
+│   ├── vector_store_utils.py
+│   └── rag_pipeline.py
+├── ingest.py
+├── app.py
+├── requirements.txt
+├── .env
+├── .gitignore
+└── README.md
+```
+
+## Setup and Installation
+
+Follow these steps to get the project up and running on your local machine.
+
+**1. Clone the Repository**
+```bash
+git clone https://github.com/your-username/multimodal_rag_project.git
+cd multimodal_rag_project
+```
+*(Replace `<your-repository-url>` with the actual URL of your repository)*
+
+**2. Create a Virtual Environment**
+It's highly recommended to use a virtual environment to manage dependencies.
+```bash
+# For Unix/macOS
+python3 -m venv venv
+source venv/bin/activate
+
+# For Windows
+python -m venv venv
+.\venv\Scripts\activate
+```
+
+**3. Install Dependencies**
+Install all the required Python libraries from the `requirements.txt` file.
+```bash
+pip install -r requirements.txt
+```
+
+**4. Set Up Environment Variables**
+Create a `.env` file in the root of the project directory and add your Google Gemini API key.
+```
+Gemini_key="YOUR_GEMINI_API_KEY_HERE"
+```
+
+**5. Add Your Data**
+Place the PDF documents you want to process inside the `data/` directory.
+
+## Usage
+
+The project is divided into two main steps: ingesting the data and running the application.
+
+### Step 1: Ingest Data and Create Vector Store
+
+Run the `ingest.py` script. This will process all PDFs in the `data/` folder, generate embeddings, and save the FAISS vector store and image data into the `vector_store/` directory. You only need to run this step once, or whenever you add new documents.
+
+```bash
+python ingest.py
+```
+This process may take some time, especially the first time it runs, as it needs to download the CLIP model from Hugging Face.
+
+### Step 2: Run the RAG Application
+
+Once the vector store is created, you can start the interactive application by running `app.py`. This script will load the pre-built store and allow you to ask questions.
+
+```bash
+python app.py
+```
+
+You will be prompted to enter your query. Type your question and press Enter. To stop the application, type `exit`.
+
+#### Example Interaction
+
+```
+$ python app.py
+Initializing models and processors...
+Loading vector store and image data...
+Multimodal RAG system is ready. Type 'exit' to quit.
+
+Enter your query: What does the chart on page 2 show about revenue trends?
+
+Thinking...
+
+--- Retrieved Context ---
+  - [Image] Source: multimodal_sample.pdf, Page: 2
+  - [Text] Source: multimodal_sample.pdf, Page: 2
+  - [Text] Source: multimodal_sample.pdf, Page: 2
+  - [Text] Source: multimodal_sample.pdf, Page: 1
+  - [Text] Source: multimodal_sample.pdf, Page: 2
+-------------------------
+
+
+Answer: The chart on page 2 shows a clear upward trend in quarterly revenue from Q1 2022 to Q4 2023. Revenue started at approximately $5 million in Q1 2022 and grew steadily to nearly $14 million by Q4 2023, indicating strong and consistent growth over the two-year period.
+
+======================================================================
+
+Enter your query: exit
+```
