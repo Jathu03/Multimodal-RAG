@@ -10,3 +10,7 @@ scikit-learn
 transformers
 faiss-cpu # or faiss-gpu if you have a compatible GPU
 langchain-google-genai
+
+# Web + ASGI server for the API
+fastapi
+uvicorn[standard]
