@@ -1,6 +1,3 @@
-Here is the complete `README.md` content in a single code block.
-
-```markdown
 # Multimodal RAG with PDF, CLIP, and Gemini
 
 This project demonstrates a complete, end-to-end Retrieval-Augmented Generation (RAG) system capable of understanding and answering questions about both the text and the images contained within PDF documents.
