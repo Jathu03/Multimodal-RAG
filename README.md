@@ -20,9 +20,6 @@ It uses the CLIP model to generate unified embeddings for text chunks and images
 multimodal_rag_project/
 ├── data/                       # Place PDF documents here
 │   └── multimodal_sample.pdf
-├── vector_store/               # Generated embeddings and index
-│   ├── faiss_index/
-│   └── image_data.pkl
 ├── src/                        # Source code
 │   ├── __init__.py
 │   ├── api.py                  # FastAPI application endpoints
@@ -141,4 +138,5 @@ Once the server is running (locally or via Docker), the following endpoints are 
 - `POST /query`: Query the system.
     - **Body:** `{"query": "your question", "top_k": 5, "include_images": false}`
 ```
+
 
