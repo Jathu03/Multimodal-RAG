@@ -141,3 +141,4 @@ Once the server is running (locally or via Docker), the following endpoints are 
 - `POST /query`: Query the system.
     - **Body:** `{"query": "your question", "top_k": 5, "include_images": false}`
 ```
+
