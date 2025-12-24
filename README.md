@@ -43,7 +43,7 @@ Follow these steps to get the project up and running on your local machine.
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/multimodal_rag_project.git
+git clone https://github.com/Jathu03/Multimodal-RAG
 cd multimodal_rag_project
 ```
 
@@ -138,5 +138,6 @@ Once the server is running (locally or via Docker), the following endpoints are 
 - `POST /query`: Query the system.
     - **Body:** `{"query": "your question", "top_k": 5, "include_images": false}`
 ```
+
 
 
