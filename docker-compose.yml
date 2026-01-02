@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - Gemin_key=${GEMINI_KEY}
+    volumes:
+      - ./data:/app/data:rw
+      - ./vector_store:/app/vector_store:rw
+    restart: unless-stopped
