@@ -111,6 +111,8 @@ You will need two terminal windows.
 ```bash
 # Ensure virtual environment is activated
 python backend/app.py
+or
+uvicorn app:app --reload
 ```
 
 Wait until you see:
@@ -219,3 +221,4 @@ This project demonstrates a **production-grade multimodal RAG system**, combinin
 - Robust DevOps practices (Docker + GitHub Actions)
 
 It is suitable as both a **research prototype** and a **real-world deployable system**.
+
