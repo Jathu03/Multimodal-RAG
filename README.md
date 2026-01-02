@@ -1,143 +1,221 @@
-# Multimodal RAG with PDF, CLIP, and Gemini
+# 🧠 Multimodal RAG System
 
-This project demonstrates a complete, end-to-end Retrieval-Augmented Generation (RAG) system capable of understanding and answering questions about both the text and the images contained within PDF documents.
+A production-ready **Retrieval-Augmented Generation (RAG)** system that allows users to chat with PDF documents containing both **text and images**.
 
-It uses the CLIP model to generate unified embeddings for text chunks and images, stores them in a FAISS vector store, and leverages a powerful Large Language Model (like Google's Gemini) to synthesize answers based on the retrieved multimodal context.
+This system uses **CLIP** for multimodal embeddings (mapping text and images into the same vector space) and a **Vision-Language Model (e.g., GPT-4o)** to generate answers grounded in retrieved multimodal context.
 
-## Features
+---
 
-- **PDF Processing**: Extracts both text and images from PDF files.
-- **Unified Multimodal Embeddings**: Uses OpenAI's CLIP model to create comparable vector embeddings for both text and images.
-- **Vector Storage**: Builds a FAISS vector store for efficient similarity searches across text and image content.
-- **Persistent Storage**: Saves the generated vector store and image data to disk, separating the one-time ingestion process from querying.
-- **Multimodal Context**: Constructs a prompt for the LLM that includes both relevant text excerpts and the actual images for comprehensive understanding.
-- **API & Docker Support**: Includes a FastAPI server and Docker configuration for easy deployment.
-- **Modular and Scalable**: The code is organized into a clean project structure for easy maintenance and expansion.
+## 🚀 Features
 
-## Project Structure
+- **Multimodal Ingestion**: Automatically extracts text and images from PDFs.
+- **Unified Vector Search**: Uses CLIP to embed both text chunks and images into a single FAISS index.
+- **RAG Pipeline**: Retrieves the most relevant text _and_ images to answer user queries.
+- **Modern Architecture**:
+
+  - **Backend**: FastAPI (async, type-safe APIs).
+  - **Frontend**: Streamlit (interactive, user-friendly UI).
+  - **Orchestration**: LangChain.
+
+- **DevOps Ready**: Dockerized services, Docker Compose orchestration, and GitHub Actions CI/CD.
+
+---
+
+## 📂 Project Structure
 
 ```text
-multimodal_rag_project/
-├── data/                       # Place PDF documents here
-│   └── multimodal_sample.pdf
-├── src/                        # Source code
-│   ├── __init__.py
-│   ├── api.py                  # FastAPI application endpoints
-│   ├── config.py
-│   ├── data_processing.py
-│   ├── vector_store_utils.py
-│   └── rag_pipeline.py
-├── ingest.py                   # Script to process PDFs
-├── app.py                      # Interactive CLI application
-├── Dockerfile                  # Docker build configuration
-├── docker-compose.yml          # Docker Compose configuration
-├── requirements.txt            # Python dependencies
-├── .env                        # Environment variables (API Keys)
+.
+├── backend/                  # FastAPI application
+│   ├── Dockerfile
+│   └── app.py
+├── frontend/                 # Streamlit UI
+│   ├── Dockerfile
+│   └── app.py
+├── src/                      # Core logic package
+│   ├── config.py             # Configuration & lazy model loading
+│   ├── data_processing.py    # PDF extraction & CLIP embedding
+│   ├── rag_pipeline.py       # Retrieval & prompt engineering
+│   └── vector_store_utils.py # FAISS & pickle management
+├── tests/                    # Unit tests (pytest)
+├── vector_store/             # Persisted FAISS index (gitignored)
+├── .env.example              # Environment variable template
 ├── .gitignore
-└── README.md
+├── .dockerignore
+├── docker-compose.yml        # Service orchestration
+└── requirements.txt          # Python dependencies
 ```
 
-## Setup and Installation
+---
 
-Follow these steps to get the project up and running on your local machine.
+## 🛠️ Installation & Local Setup
 
-### 1. Clone the Repository
+### 1️⃣ Clone the Repository
+
 ```bash
-git clone https://github.com/Jathu03/Multimodal-RAG
-cd multimodal_rag_project
+git clone https://github.com/your-username/multimodal-rag.git
+cd multimodal-rag
 ```
 
-### 2. Create a Virtual Environment
-It's highly recommended to use a virtual environment to manage dependencies.
-```bash
-# For Unix/macOS
-python3 -m venv venv
-source venv/bin/activate
+### 2️⃣ Set Up Environment Variables
 
-# For Windows
-python -m venv venv
-.\venv\Scripts\activate
+Create a `.env` file in the root directory:
+
+```bash
+cp .env .env
 ```
 
-### 3. Install Dependencies
+Edit `.env` and add your API keys and paths:
+
+```ini
+OPENAI_API_KEY=sk-proj-your-key-here
+DOCUMENTS_PATH=data
+VECTOR_STORE_PATH=vector_store
+IMAGE_STORE_PATH=vector_store/images.pkl
+```
+
+### 3️⃣ Install Dependencies
+
+It is recommended to use a virtual environment:
+
 ```bash
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Set Up Environment Variables
-Create a `.env` file in the root of the project directory and add your Google Gemini API key.
-```ini
-Gemini_key="YOUR_GEMINI_API_KEY_HERE"
-```
-
-### 5. Add Your Data
-Place the PDF documents you want to process inside the `data/` directory.
-
 ---
 
-## Usage
+## ▶️ Running the Application
 
-You can interact with this project via the Command Line Interface (CLI) or via the API/Docker. In all cases, you must first ingest the data.
+### Option A: Using Docker (Recommended)
 
-### Step 1: Ingest Data
-Run the ingestion script to process PDFs, generate embeddings, and create the vector store. This must be done once, or whenever you add new documents to `data/`.
-
-```bash
-python ingest.py
-```
-*Note: This process may take some time initially as it downloads the CLIP model from Hugging Face.*
-
----
-
-### Option A: Run Interactive CLI
-To run the simple interactive command-line application:
+Run the entire stack (backend + frontend) with Docker Compose:
 
 ```bash
-python app.py
-```
-This script loads the vector store and allows you to chat with your documents in the terminal.
-
----
-
-### Option B: API & Docker
-This repository provides a FastAPI server for querying the RAG pipeline and a Docker-based deployment.
-
-#### 1. Running the API Locally
-Make sure requirements are installed and `ingest.py` has been run.
-
-```bash
-uvicorn src.api:app --host 0.0.0.0 --port 8000
-```
-
-#### 2. Running with Docker
-You can build and run the application in an isolated container.
-
-**Build the image:**
-```bash
-docker build -t multimodal-rag:latest .
-```
-
-**Run the container:**
-```bash
-docker run -p 8000:8000 -e Gemini_key="YOUR_API_KEY" multimodal-rag:latest
-```
-
-#### 3. Running with Docker Compose (Recommended)
-This is the easiest method for local development.
-
-```bash
-export GEMINI_KEY="your-api-key"
 docker-compose up --build
 ```
 
-#### API Endpoints
-Once the server is running (locally or via Docker), the following endpoints are available:
+Once running, access the services:
 
-- `GET /health`: Basic health check.
-- `POST /ingest`: Trigger the ingestion process to (re)create the vector store from the `data/` folder.
-- `POST /query`: Query the system.
-    - **Body:** `{"query": "your question", "top_k": 5, "include_images": false}`
+- **Frontend UI**: [http://localhost:8501](http://localhost:8501)
+- **Backend API Docs (Swagger)**: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+### Option B: Running Manually (Development Mode)
+
+You will need two terminal windows.
+
+#### Terminal 1 — Backend
+
+```bash
+# Ensure virtual environment is activated
+python backend/app.py
 ```
 
+Wait until you see:
 
+```text
+Application startup complete
+```
 
+#### Terminal 2 — Frontend
+
+```bash
+# Ensure virtual environment is activated
+streamlit run frontend/app.py
+```
+
+---
+
+## 🧪 Testing
+
+The project includes a comprehensive test suite using **pytest**. All external dependencies (GPU, CLIP, OpenAI APIs) are mocked to ensure fast and deterministic tests.
+
+```bash
+# Run all tests
+python -m pytest
+
+# Run with verbose output
+python -m pytest -v
+```
+
+---
+
+## ⚙️ How It Works
+
+### 1️⃣ Ingestion
+
+- A PDF is uploaded through the Streamlit UI.
+- The file is sent to the FastAPI backend.
+
+### 2️⃣ Extraction
+
+- **PyMuPDF** extracts:
+
+  - Text blocks
+  - Embedded images
+
+### 3️⃣ Embedding (Multimodal)
+
+- **CLIP (Contrastive Language–Image Pretraining)** converts:
+
+  - Text chunks → vector embeddings
+  - Images → vector embeddings
+
+Because both are mapped into the **same vector space**, the system supports:
+
+- Text → Text search
+- Text → Image search
+- Image → Text search (extensible)
+
+### 4️⃣ Storage
+
+- Vector embeddings are stored in a **FAISS index**.
+- Raw base64-encoded images are stored in a **pickle file** for later retrieval.
+
+### 5️⃣ Retrieval
+
+- User queries are embedded using CLIP.
+- FAISS retrieves the nearest vectors (text and/or images).
+
+### 6️⃣ Generation
+
+- Retrieved text and base64 images are formatted into a structured prompt.
+- The prompt is sent to a **Vision-Language Model** (e.g., GPT-4o).
+- The model generates a grounded, multimodal-aware response.
+
+---
+
+## 🚢 CI/CD Pipeline
+
+GitHub Actions workflows are configured under `.github/workflows/`:
+
+### ✅ Continuous Integration (CI — `ci.yml`)
+
+- Triggered on every push and pull request to `main`.
+- Runs:
+
+  - Unit tests (`pytest`)
+  - Linting and sanity checks (if configured)
+
+### 📦 Continuous Deployment (CD — `cd.yml`)
+
+- Triggered on pushes to `main`.
+- Automatically:
+
+  - Builds Docker images
+  - Pushes images to **GitHub Container Registry (GHCR)**
+
+---
+
+## 📌 Summary
+
+This project demonstrates a **production-grade multimodal RAG system**, combining:
+
+- Vision–language embeddings (CLIP)
+- Vector databases (FAISS)
+- Modern backend/frontend stacks (FastAPI + Streamlit)
+- Robust DevOps practices (Docker + GitHub Actions)
+
+It is suitable as both a **research prototype** and a **real-world deployable system**.

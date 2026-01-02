@@ -1,14 +1,33 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  app:
-    build: .
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: rag_backend
     ports:
       - "8000:8000"
-    environment:
-      - PORT=8000
-      - Gemin_key=${GEMINI_KEY}
     volumes:
-      - ./data:/app/data:rw
-      - ./vector_store:/app/vector_store:rw
-    restart: unless-stopped
+      # Persist the vector store and documents
+      - ./vector_store:/app/vector_store
+      - ./data:/app/data
+      # Optional: Mount source code for live editing (remove in production)
+      - ./src:/app/src
+    env_file:
+      - .env
+    restart: always
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: rag_frontend
+    ports:
+      - "8501:8501"
+    environment:
+      # Tells frontend to talk to the container named 'backend'
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+    restart: always

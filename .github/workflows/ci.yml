@@ -1,0 +1,48 @@
+name: CI Pipeline
+
+# Trigger on push or pull request to main
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout Code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Setup Python
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "pip" # Caches dependencies to speed up future runs
+
+      # 3. Create Dummy .env file
+      # Prevents crashes if config.py tries to load secrets immediately
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "OPENAI_API_KEY=dummy" >> .env
+          echo "DOCUMENTS_PATH=data" >> .env
+          echo "VECTOR_STORE_PATH=vector_store" >> .env
+          echo "IMAGE_STORE_PATH=vector_store/images.pkl" >> .env
+
+      # 4. Install Dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Install pytest explicitly just in case it's not in requirements
+          pip install pytest
+
+      # 5. Run Tests
+      # We use 'python -m pytest' to ensure src module is found
+      - name: Run Unit Tests
+        run: |
+          python -m pytest
