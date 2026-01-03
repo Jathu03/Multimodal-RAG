@@ -60,19 +60,3 @@
 - `CI/CD`: use GitHub Actions to run linting, unit tests, and an optional smoke test that runs `main.py --no-rebuild` against a small sample dataset.
 
 ---
-
-## Practical tips ✅
-
-- Add `--limit N` and `--dry-run` flags to `main.py` for quick CI smoke tests.
-- Make `src/config.py` read env vars but avoid heavy model initialization at import time (or add lazy-loading helpers) to speed up tests and CI.
-- Provide `.env.example` and document expected secrets (API keys) in `README.md`.
-- Add unit tests for `process_pdf`, `create_and_save_vector_store`, and `multimodal_rag_pipeline` (mock external dependencies).
-
----
-
-## Next steps (optional) ✨
-
-- I can move `main.py` to the repo root (if you prefer) and add skeleton `backend/app.py` and `frontend/app.py` files.
-- I can also add basic `docker-compose.yml` + per-service `Dockerfile` templates and a minimal GitHub Actions `ci.yml`.
-
-Would you like me to apply any of these changes now?
