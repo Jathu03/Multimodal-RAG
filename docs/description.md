@@ -49,20 +49,3 @@
 Visual: `config.py` → `data_processing.process_pdf` → `create_and_save_vector_store` → (saved index & images) → `load_vector_store` → `rag_pipeline.multimodal_rag_pipeline`
 
 ---
-
-## Notes & Potential Issues ⚠️
-
-- `vector_store_utils.create_and_save_vector_store` references `DummyEmbeddings()` which is undefined — will raise a `NameError`.
-- The `FAISS.from_embeddings` call signature may not match the installed FAISS wrapper — verify with your package version.
-- `create_multimodal_message` uses `HumanMessage(content=...)` with a list of dicts — confirm the `HumanMessage` API supports this structure.
-- `config.py` sets `os.environ["GOOGLE_API_KEY"] = os.getenv("Gemini_key")` — ensure your `.env` variable matches.
-
----
-
-## Next steps (optional) ✨
-
-- Fix undefined `DummyEmbeddings` and ensure FAISS creation call matches your library.
-- Add a small README or tests demonstrating ingestion → index → retrieval flow.
-- Add lightweight unit tests or a sample driver script.
-
-If you want, I can implement any of these fixes or add the tests next.
