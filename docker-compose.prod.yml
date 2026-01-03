@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    # PULLS the image from GitHub instead of building locally
+    image: ghcr.io/jathu03/multimodal-rag/rag-backend:latest
+    container_name: rag_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Maps a folder on the user's computer to the container
+      # This ensures their vector DB isn't deleted when they turn off Docker
+      - ./my_rag_data:/app/vector_store
+    environment:
+      # User needs to paste their key here
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    restart: always
+
+  frontend:
+    image: ghcr.io/jathu03/multimodal-rag/rag-frontend:latest
+    container_name: rag_frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+    restart: always
