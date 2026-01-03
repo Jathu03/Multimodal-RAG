@@ -12,8 +12,7 @@ Want to run this application without installing Python or cloning the entire sou
 #### 1. Download the Runner File
 Open your terminal/command prompt and run:
 ```bash
-curl -o docker-compose.yml [https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/docker-compose.prod.yml](https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/docker-compose.prod.yml)
-
+curl -o docker-compose.yml https://raw.githubusercontent.com/Jathu03/Multimodal-RAG/blob/main/docker-compose.prod.yml
 ```
 
 #### 2. Set your API Key
@@ -51,9 +50,5 @@ Once the setup is complete, you can access the services at:
 
 * **Frontend:** [http://localhost:8501](https://www.google.com/search?q=http://localhost:8501)
 * **Backend API Docs:** [http://localhost:8000/docs](https://www.google.com/search?q=http://localhost:8000/docs)
-
-```
-
-**Would you like me to help you create a `docker-compose.yml` file that matches this setup?**
 
 ```
