@@ -12,7 +12,7 @@ Want to run this application without installing Python or cloning the entire sou
 #### 1. Download the Runner File
 Open your terminal/command prompt and run:
 ```bash
-curl -o docker-compose.yml [https://raw.githubusercontent.com/Jathu03/Multimodal-RAG/main/docker-compose.prod.yml](https://raw.githubusercontent.com/Jathu03/Multimodal-RAG/main/docker-compose.prod.yml)
+curl -o docker-compose.yml https://raw.githubusercontent.com/Jathu03/Multimodal-RAG/main/docker-compose.prod.yml
 ```
 
 #### 2. Set your API Key
