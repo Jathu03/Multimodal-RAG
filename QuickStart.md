@@ -1,4 +1,3 @@
-```markdown
 ## ⚡ Quick Start (No Coding Required)
 
 Want to run this application without installing Python or cloning the entire source code?
