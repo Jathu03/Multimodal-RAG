@@ -146,15 +146,6 @@ This document outlines the step-by-step execution plan to build, test, and deplo
 
 ---
 
-## ⚠️ Practical Tips & Safety Notes
-
-1.  **Lazy Initialization is King:** Use `get_clip_model()` factory functions. If you load CLIP at the top level of `src/data_processing.py`, your simple unit tests will take 30 seconds to start.
-2.  **Git Large File Storage:** Keep the actual `vector_store/` folder **out of git**.
-3.  **CI Speed:** Provide extremely small sample PDFs for CI. Do not try to process real books in GitHub Actions.
-4.  **Mocking:** In `tests/`, mock the OpenAI/LLM calls. You don't want to pay for API credits every time you run `pytest`.
-
----
-
 ## ✅ Quick Checklist (Start Here)
 
 - `git init`, add `.gitignore`, create `.env.example`
